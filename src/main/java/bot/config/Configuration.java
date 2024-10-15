@@ -1,15 +1,14 @@
-package core;
+package bot.config;
 
-public class BotConfiguration {
+public class Configuration {
 
-    private String guildId;
-    
+        
     private String token;
-
+    private String guildId;
     private String ownerId;
 
 
-    public BotConfiguration(){
+    public Configuration(){
 
     }
 
@@ -42,8 +41,8 @@ public class BotConfiguration {
         return "BotConfiguration [guildId=" + guildId + ", token=" + token + ", ownerId=" + ownerId + "]";
     }
 
-    public static BotConfiguration getDefault(){
-        var result = new BotConfiguration();
+    public static Configuration getDefault(){
+        var result = new Configuration();
         result.setGuildId("123456789");
         result.setOwnerId("123456789");
         result.setToken("DISCORD_API_KEY");

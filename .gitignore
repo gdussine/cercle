@@ -1,11 +1,12 @@
-# Ignore Gradle project-specific cache directory
-.gradle
-.vscode
-bin
-gradle
+# Ignore directory
+.gradle/
+.vscode/
+bin/
+gradle/
+build/
+config/*.json
+# Ignore file
 gradlew.bat
 gradlew
-# Ignore Gradle build output directory
-build
-config
+
 
