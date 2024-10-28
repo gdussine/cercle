@@ -4,8 +4,7 @@ package bot.core;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import bot.config.Configuration;
-import bot.config.ConfigurationLoader;
+import bot.config.ConfigurationManager;
 
 public class Launcher {
 
@@ -13,10 +12,23 @@ public class Launcher {
         RUN, SETUP, DEBUG;
     }
 
+    private static Launcher instance;
+
+    public static Launcher getInstance() {
+        if(instance == null)
+            instance = new Launcher();
+        return instance;
+    }
+
     private String configPath;
     private BotLauncherAction action = BotLauncherAction.RUN;
     private Logger log = LoggerFactory.getLogger(Launcher.class);
-    private ConfigurationLoader loader = new ConfigurationLoader();
+    private ConfigurationManager loader = new ConfigurationManager();
+
+    private Launcher(){
+
+    }
+
 
     public void launch() {
         log.info("BotLauncher execute %s".formatted(action));
@@ -49,11 +61,9 @@ public class Launcher {
     }
 
     protected Launcher run() {
-        Configuration config = loader.load(configPath);
-        Bot bot = new Bot(config);
+        Bot bot = new Bot(loader, configPath);
         bot.start();
         return this;
-
     }
 
     protected Launcher debug() {
@@ -62,7 +72,6 @@ public class Launcher {
     }
 
     public static void main(String[] args) {
-        Launcher launcher = new Launcher();
-        launcher.parse(args).launch();
+        Launcher.getInstance().parse(args).launch();
     }
 }
