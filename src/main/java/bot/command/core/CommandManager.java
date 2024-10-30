@@ -1,6 +1,7 @@
 package bot.command.core;
 
 import bot.core.BotManager;
+import bot.exceptions.CommandCheckException;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 

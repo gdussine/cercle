@@ -1,6 +1,6 @@
 package bot.view;
 
-import bot.command.core.CommandCheckException;
+import bot.exceptions.CommandCheckException;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 

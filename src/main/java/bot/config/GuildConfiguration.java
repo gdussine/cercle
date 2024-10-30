@@ -22,16 +22,20 @@ public class GuildConfiguration {
         return system;
     }
 
-    public void setSystem(String system) {
-        this.system = system;
+    public void setSystem(String systemMention) {
+        this.system = mentionToId(systemMention);
     }
 
     public String getLog() {
         return log;
     }
 
-    public void setLog(String log) {
-        this.log = log;
+    public void setLog(String logMention) {
+        this.log = mentionToId(logMention);
+    }
+
+    public static String mentionToId(String mention){
+        return mention.substring(2).replace(">", "");
     }
 
     public static GuildConfiguration of(){

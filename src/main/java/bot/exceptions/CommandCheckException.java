@@ -1,11 +1,13 @@
-package bot.command.core;
+package bot.exceptions;
+
+import bot.command.core.CommandAction;
 
 public class CommandCheckException extends Exception{
 
     private CommandAction action;
 
     public CommandCheckException(Throwable cause, CommandAction action){
-        super(cause);
+        this(cause.getMessage(), action);
         this.action = action;
     }
 

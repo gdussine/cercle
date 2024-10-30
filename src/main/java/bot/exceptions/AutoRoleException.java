@@ -1,4 +1,4 @@
-package bot.automation.role;
+package bot.exceptions;
 
 public class AutoRoleException extends Exception{
 

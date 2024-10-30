@@ -3,14 +3,15 @@ package bot.config;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import bot.core.BotManager;
+import bot.exceptions.GuildConfigurationException;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
@@ -42,23 +43,31 @@ public class ConfigurationManager extends BotManager {
         return null;
     }
 
-    public GuildConfiguration loadGuild(Guild guild) {
+    public Message retrieveGuildConfigurationMessage(Guild guild) throws GuildConfigurationException{
+        List<TextChannel> temp = guild.getTextChannelsByName(CONFIG_CHANNEL_NAME, false);
+        if(temp.isEmpty())
+            throw GuildConfigurationException.noChannel();
+        TextChannel channel = temp.getFirst();
+        if(channel.getLatestMessageIdLong() == 0)
+            throw GuildConfigurationException.noMessage();
+        return channel.retrieveMessageById(channel.getLatestMessageId()).complete();
+    }
+
+    public GuildConfiguration readGuildConfiguration(Message message) throws GuildConfigurationException{
         try {
-            List<TextChannel> temp = guild.getTextChannelsByName(CONFIG_CHANNEL_NAME, false);
-            TextChannel configChannel = temp.isEmpty() ? guild.createTextChannel(CONFIG_CHANNEL_NAME).complete()
-                    : temp.getFirst();
-            Message message = configChannel.getLatestMessageId().equals("0")
-                    ? configChannel
-                            .sendMessage(
-                                    mapper.writerWithDefaultPrettyPrinter().writeValueAsString(GuildConfiguration.of()))
-                            .complete()
-                    : configChannel.retrieveMessageById(configChannel.getLatestMessageId()).complete();
             GuildConfiguration result = mapper.readValue(message.getContentRaw(), GuildConfiguration.class);
-            contexts.put(guild.getId(), new GuildContext(result, bot));
+            result.setGuild(message.getGuildId());
             return result;
         } catch (JsonProcessingException e) {
-            return null;
+            throw GuildConfigurationException.invalidMessage(e);
         }
+    }
+
+    public void configure(Guild guild) throws GuildConfigurationException {
+            Message msg = retrieveGuildConfigurationMessage(guild);
+            GuildConfiguration configuration = readGuildConfiguration(msg);
+            contexts.put(guild.getId(), GuildContext.of(bot, configuration));
+            
     }
 
     public GuildContext getContext(Guild guild){

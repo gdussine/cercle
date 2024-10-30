@@ -4,7 +4,8 @@ import bot.command.annotations.CommandDescription;
 import bot.command.annotations.CommandModule;
 import bot.command.annotations.CommandOption;
 import bot.command.core.CommandAction;
-import bot.command.core.CommandCheckException;
+import bot.exceptions.CommandCheckException;
+import bot.exceptions.GuildConfigurationException;
 import net.dv8tion.jda.api.Permission;
 
 @CommandModule(name = "owner", permission = { Permission.MESSAGE_SEND })
@@ -30,5 +31,16 @@ public class OwnerAction extends CommandAction {
         interaction.reply("Bye!").submit().thenAccept(x -> {
             bot.stop();
         });
+    }
+
+    @CommandDescription("Refresh the guild configuration")
+    public void config(){
+        try {
+            bot.getConfigurationManager().configure(interaction.getGuild());
+            interaction.reply("Configuration reloaded").submit();
+        } catch (GuildConfigurationException e) {
+            replyException(e).submit();
+        }
+
     }
 }
