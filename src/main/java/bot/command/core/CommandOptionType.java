@@ -4,6 +4,7 @@ import java.util.function.Function;
 
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 
@@ -12,7 +13,9 @@ public enum CommandOptionType {
     STRING(OptionType.STRING, String.class, m -> m.getAsString()),
     USER(OptionType.USER, User.class, m ->m.getAsUser()),
     BOOLEAN(OptionType.BOOLEAN, Boolean.class, m->m.getAsBoolean()),
-    ROLE(OptionType.ROLE, Role.class, m->m.getAsRole());
+    ROLE(OptionType.ROLE, Role.class, m->m.getAsRole()),
+    TEXTCHANNEl(OptionType.CHANNEL, TextChannel.class, m->m.getAsChannel().asTextChannel()),
+    INTEGER(OptionType.INTEGER, Integer.class, m->m.getAsInt());
 
     private OptionType option;
     private Class<?> clazz;

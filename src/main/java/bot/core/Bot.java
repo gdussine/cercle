@@ -3,12 +3,15 @@ package bot.core;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import bot.automation.channel.AutoVoiceChannelManager;
 import bot.automation.role.AutoRoleManager;
 import bot.command.core.CommandManager;
 import bot.config.BotConfiguration;
 import bot.config.ConfigurationManager;
+import bot.config.GuildContext;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
@@ -21,6 +24,7 @@ public class Bot {
 
     private CommandManager commandManager;
     private AutoRoleManager autoroleManager;
+    private AutoVoiceChannelManager autoVoiceChannelManager;
     private ConfigurationManager configurationManager;
 
     public Bot(ConfigurationManager configurationManager, String configPath) {
@@ -31,6 +35,7 @@ public class Bot {
         this.configurationManager = configurationManager;
         this.commandManager = new CommandManager();
         this.autoroleManager = new AutoRoleManager();
+        this.autoVoiceChannelManager = new AutoVoiceChannelManager();
         this.registerManager();
     }
 
@@ -38,6 +43,7 @@ public class Bot {
         this.commandManager.register(this);
         this.autoroleManager.register(this);
         this.configurationManager.register(this);
+        this.autoVoiceChannelManager.register(this);
     }
 
     public void start() {
@@ -70,6 +76,10 @@ public class Bot {
         return jda;
     }
 
+    public GuildContext getContext(Guild guild){
+        return configurationManager.getContext(guild);
+    }
+
     public CommandManager getCommandManager(){
         return commandManager;
     }
@@ -82,9 +92,15 @@ public class Bot {
         return configurationManager;
     }
 
+
+    public AutoVoiceChannelManager getAutoVoiceChannelManager() {
+        return autoVoiceChannelManager;
+    }
+
     public void listen(EventListener listener){
         this.jdaBuilder.addEventListeners(listener);
     }
+
 
 
 }

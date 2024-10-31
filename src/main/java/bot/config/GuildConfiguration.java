@@ -3,9 +3,12 @@ package bot.config;
 public class GuildConfiguration {
 
     private String guild;
+
     private String system;
     private String log;
+    private String autoVoice;
 
+    
     public GuildConfiguration() {
 
     }
@@ -32,6 +35,14 @@ public class GuildConfiguration {
 
     public void setLog(String logMention) {
         this.log = mentionToId(logMention);
+    }
+
+    public String getAutoVoice() {
+        return autoVoice;
+    }
+
+    public void setAutoVoice(String autovoice) {
+        this.autoVoice = mentionToId(autovoice);
     }
 
     public static String mentionToId(String mention){

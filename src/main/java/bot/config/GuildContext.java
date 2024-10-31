@@ -6,6 +6,7 @@ import bot.core.Bot;
 import bot.exceptions.GuildConfigurationException;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 
 public class GuildContext {
 
@@ -13,6 +14,8 @@ public class GuildContext {
 
     private TextChannel system;
     private TextChannel log;
+
+    private VoiceChannel autoVoice;
 
     private GuildContext(Guild guild) {
         this.guild = guild;
@@ -36,6 +39,14 @@ public class GuildContext {
 
     public void setLog(String id) {
         this.log = guild.getTextChannelById(id);
+    }
+
+    public VoiceChannel getAutoVoice() {
+        return autoVoice;
+    }
+
+    public void setAutoVoice(String id) {
+        this.autoVoice = guild.getVoiceChannelById(id);
     }
 
     public static GuildContext of(Bot bot, GuildConfiguration configuration) throws GuildConfigurationException {
