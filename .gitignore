@@ -5,6 +5,12 @@ bin/
 gradle/
 build/
 config/*.json
+
+#Ignore Eclipse
+.classpath
+.project
+.settings/
+
 # Ignore file
 gradlew.bat
 gradlew
