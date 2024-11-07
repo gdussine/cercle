@@ -1,10 +1,11 @@
 package bot.core;
 
-
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import bot.config.ConfigurationManager;
+import bot.persistence.DatabaseManager;
 
 public class Launcher {
 
@@ -15,7 +16,7 @@ public class Launcher {
     private static Launcher instance;
 
     public static Launcher getInstance() {
-        if(instance == null)
+        if (instance == null)
             instance = new Launcher();
         return instance;
     }
@@ -24,11 +25,11 @@ public class Launcher {
     private BotLauncherAction action = BotLauncherAction.RUN;
     private Logger log = LoggerFactory.getLogger(Launcher.class);
     private ConfigurationManager loader = new ConfigurationManager();
+    private DatabaseManager databaseManager = DatabaseManager.getInstance();
 
-    private Launcher(){
+    private Launcher() {
 
     }
-
 
     public void launch() {
         log.info("BotLauncher execute %s".formatted(action));
@@ -45,7 +46,7 @@ public class Launcher {
         }
     }
 
-    protected Launcher parse(String[] args){
+    protected Launcher parse(String[] args) {
         if (args.length >= 1)
             this.action = BotLauncherAction.valueOf(args[0].toUpperCase());
         if (action == null)
@@ -72,6 +73,11 @@ public class Launcher {
     }
 
     public static void main(String[] args) {
-        Launcher.getInstance().parse(args).launch();
+        Launcher launcher = Launcher.getInstance();
+        Session session = launcher.databaseManager.getSessionFactory().openSession();
+        System.out.println("coucou");
+        session.close();
+        System.exit(0);
+        launcher.parse(args).launch();
     }
 }
