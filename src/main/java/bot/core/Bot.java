@@ -9,6 +9,8 @@ import bot.command.core.CommandManager;
 import bot.config.BotConfiguration;
 import bot.config.ConfigurationManager;
 import bot.config.GuildContext;
+import irelia.core.Irelia;
+import irelia.core.Platform;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -21,18 +23,20 @@ public class Bot {
     private JDABuilder jdaBuilder;
     private BotConfiguration configuration;
     private Logger log;
+    private Irelia irelia;
 
     private CommandManager commandManager;
     private AutoRoleManager autoroleManager;
     private AutoVoiceChannelManager autoVoiceChannelManager;
     private ConfigurationManager configurationManager;
 
-    public Bot(ConfigurationManager configurationManager, String configPath) {
-        this.configuration = configurationManager.load(configPath);
+    public Bot(BotConfiguration configuration){
+        this.configuration = configuration;
         this.log = LoggerFactory.getLogger(this.getClass().getSimpleName());
-        this.jdaBuilder = JDABuilder.createDefault(configuration.getToken());
+        this.irelia = new Irelia(configuration.getRiotToken(),Platform.EUW1);
+        this.jdaBuilder = JDABuilder.createDefault(configuration.getDiscordToken());
         this.jdaBuilder.enableIntents(GatewayIntent.MESSAGE_CONTENT);
-        this.configurationManager = configurationManager;
+        this.configurationManager = new ConfigurationManager();
         this.commandManager = new CommandManager();
         this.autoroleManager = new AutoRoleManager();
         this.autoVoiceChannelManager = new AutoVoiceChannelManager();
@@ -51,6 +55,8 @@ public class Bot {
             this.jda = jdaBuilder.build();
             this.jda.awaitReady();
             this.log.info("Bot started.");
+            this.irelia.start();
+            this.log.info("Riot API connected.");
         } catch (Exception e) {
             log.error("Bot failed to start.", e);
             System.exit(1);
@@ -62,6 +68,8 @@ public class Bot {
             this.jda.shutdownNow();
             this.jda.awaitShutdown();
             this.log.info("Bot shutdown.");
+            this.irelia.stop();
+            this.log.info("Riot API disconnected.");
         } catch (Exception e) {
             log.error("Bot failed to shutdown.", e);
             System.exit(1);
@@ -99,6 +107,10 @@ public class Bot {
 
     public void listen(EventListener listener){
         this.jdaBuilder.addEventListeners(listener);
+    }
+
+    public Irelia getIrelia() {
+        return irelia;
     }
 
 

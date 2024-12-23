@@ -11,7 +11,7 @@ public class CommandCheckExceptionView extends EmbedView {
     public CommandCheckExceptionView(CommandCheckException exception) {
         this.exception = exception;
         this.template.setTitle(":warning: Command Exception");
-        this.template.setColor(0xEED202);
+        this.template.setColor(YELLOW);
         this.setMessage();
         this.setDetails();
     }

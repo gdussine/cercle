@@ -5,12 +5,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import bot.command.autocomplete.CommandAutoCompleters;
+
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 public @interface CommandOption {
     public String name();
     public String description();
     public boolean required() default true;
-    public boolean autocomplete() default false;
+    public CommandAutoCompleters autocomplete() default CommandAutoCompleters.NONE;
 
 }

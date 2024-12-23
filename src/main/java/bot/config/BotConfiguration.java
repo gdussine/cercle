@@ -1,14 +1,30 @@
 package bot.config;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+
+@Entity
 public class BotConfiguration {
 
+    @Id
     private String name;
-    private String token;
+
+    private String discordToken;
+    private String riotToken;
     private String ownerId;
 
     public BotConfiguration() {
 
     }
+
+    public BotConfiguration(String name, String discordToken, String riotToken, String ownerId) {
+        this.name = name;
+        this.discordToken = discordToken;
+        this.riotToken = riotToken;
+        this.ownerId = ownerId;
+    }
+
 
     public String getName() {
         return name;
@@ -18,12 +34,12 @@ public class BotConfiguration {
         this.name = name;
     }
 
-    public String getToken() {
-        return token;
+    public String getDiscordToken() {
+        return discordToken;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setDiscordToken(String token) {
+        this.discordToken = token;
     }
 
     public String getOwnerId() {
@@ -39,10 +55,13 @@ public class BotConfiguration {
         return "BotConfiguration:" + name;
     }
 
-    public static BotConfiguration getDefault() {
-        var result = new BotConfiguration();
-        result.setName("default");
-        return result;
+    public String getRiotToken() {
+        return riotToken;
     }
+
+    public void setRiotToken(String riotToken) {
+        this.riotToken = riotToken;
+    }
+
 
 }

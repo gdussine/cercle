@@ -12,7 +12,7 @@ repositories{
 }
 
 application {
-    mainClass='bot.core.Launcher'
+    mainClass='bot.launcher.Launcher'
 }
 
 dependencies{

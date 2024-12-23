@@ -8,6 +8,7 @@ import java.util.List;
 import bot.command.annotations.CommandModule;
 import bot.command.annotations.CommandDescription;
 import bot.command.annotations.CommandOption;
+import bot.command.autocomplete.CommandAutoCompleters;
 import bot.core.Bot;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -42,7 +43,7 @@ public class CommandEntry {
         for (int i = 0; i < options.size(); i++) {
             subcommand.addOptions(new OptionData(CommandOptionType.byClass(parameters.get(i).getType()).getOption(),
                     options.get(i).name(), options.get(i).description(),
-                    options.get(i).required(), options.get(i).autocomplete()));
+                    options.get(i).required(), !options.get(i).autocomplete().equals(CommandAutoCompleters.NONE)));
         }
         return subcommand;
     }

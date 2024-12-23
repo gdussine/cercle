@@ -1,24 +1,36 @@
 package bot.command.impl;
 
+import java.util.List;
+
 import bot.command.annotations.CommandDescription;
 import bot.command.annotations.CommandModule;
 import bot.command.annotations.CommandOption;
+import bot.command.autocomplete.CommandAutoCompleters;
 import bot.command.core.CommandAction;
+import bot.config.GuildConfiguration;
 import bot.exceptions.GuildConfigurationException;
+import bot.view.impl.GuildConfigurationCheckView;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 @CommandModule(name = "admin", permission = { Permission.ADMINISTRATOR })
 public class AdminAction extends CommandAction {
 
     @CommandDescription("Refresh the guild configuration")
-    public void config() {
-        try {
-            bot.getConfigurationManager().configure(interaction.getGuild());
-            interaction.reply("Configuration reloaded").submit();
-        } catch (GuildConfigurationException e) {
-            replyException(e).submit();
+    public void config(
+        @CommandOption(name="label", description = "Configuration label", autocomplete = CommandAutoCompleters.CONFIG_LABEL) String label, 
+        @CommandOption(name="value", description = "Configuration value") String value )
+     {
+        Guild guild = interaction.getGuild();
+        GuildConfiguration configuration = bot.getConfigurationManager().getConfiguration(guild);
+        bot.getConfigurationManager().editConfiguration(guild, configuration, label, value);
+        List<GuildConfigurationException> exceptions = bot.getConfigurationManager().checkConfiguration(configuration, guild);
+        GuildConfigurationCheckView view = new GuildConfigurationCheckView(guild, exceptions);
+        if(exceptions.size() == 0){
+            bot.getConfigurationManager().createContext(configuration);
         }
+        interaction.replyEmbeds(view.toEmbed()).submit();
     }
 
     @CommandDescription("PING request to Discord API")

@@ -1,20 +1,28 @@
 package bot.config;
 
+import java.util.List;
+
 import bot.core.BotListener;
 import bot.exceptions.GuildConfigurationException;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 
 public class ConfigurationListener extends BotListener {
 
+
     @Override
     public void onGuildReady(GuildReadyEvent event) {
-        try {
-            bot.getConfigurationManager().configure(event.getGuild());
-            bot.getConfigurationManager().getLog().info("Guild %s configurated".formatted(event.getGuild().getName()));
-        } catch (GuildConfigurationException e){
-            bot.getConfigurationManager().getLog().error("Guild %s not configurated : %s".formatted(event.getGuild().getName(), e.getCause().getMessage()));
+        ConfigurationManager manager = bot.getConfigurationManager();
+        Guild guild = event.getGuild();
+        GuildConfiguration configuration = manager.getConfiguration(guild);
+        List<GuildConfigurationException> exceptions = manager.checkConfiguration(configuration, guild);
+        if (exceptions.size() == 0) {
+            manager.createContext(configuration);
+            manager.logInfo("Guild %s configured".formatted(event.getGuild().getName()), guild);
+        } else {
+            manager.logWarn("Guild %s not configured : %d errors".formatted(event.getGuild().getName(),
+                    exceptions.size()), guild);
         }
     }
-    
 
 }
