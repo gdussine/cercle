@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import bot.exceptions.GuildConfigurationException;
 
 public class ConfigurationReflecter {
 
@@ -89,42 +88,40 @@ public class ConfigurationReflecter {
         return contextSetters;
     }
 
-    public String configurationGet(String label, GuildConfiguration configuration){
+    public String configurationGet(String label, GuildConfiguration configuration) throws GuildConfigurationException{
         Method configurationGetter = this.getConfigurationGetter(label);
         try {
             Object object = configurationGetter.invoke(configuration);
             return object.toString();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw GuildConfigurationException.reflectionFailed(label, e);
         }
-        return null;
     }
 
-    public void configurationSet(String label, String value, GuildConfiguration configuration){
+    public void configurationSet(String label, String value, GuildConfiguration configuration) throws GuildConfigurationException{
         Method configurationSetter = this.getConfigurationSetter(label);
         try {
             configurationSetter.invoke(configuration, value);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw GuildConfigurationException.reflectionFailed(label, e);
         }
     }
 
-    public Object contextGet(String label, GuildContext xContext){
+    public Object contextGet(String label, GuildContext xContext) throws GuildConfigurationException{
         Method contextGetter = this.getContextGetter(label);
         try{
             return contextGetter.invoke(contextGetter);
         } catch(Exception e){
-            e.printStackTrace();
+            throw GuildConfigurationException.reflectionFailed(label, e);
         }
-        return null;
     }
 
-    public void contextSet(String label, String value, GuildContext context){
+    public void contextSet(String label, String value, GuildContext context) throws GuildConfigurationException{
         Method contextSetter = this.getContextSetter(label);
         try {
             contextSetter.invoke(context, value);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw GuildConfigurationException.reflectionFailed(label, e);
         }
     }
 

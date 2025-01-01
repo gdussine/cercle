@@ -5,10 +5,12 @@ import org.slf4j.LoggerFactory;
 
 import bot.automation.channel.AutoVoiceChannelManager;
 import bot.automation.role.AutoRoleManager;
+import bot.automation.welcome.GateManager;
 import bot.command.core.CommandManager;
 import bot.config.BotConfiguration;
 import bot.config.ConfigurationManager;
 import bot.config.GuildContext;
+import bot.player.PlayerManager;
 import irelia.core.Irelia;
 import irelia.core.Platform;
 import net.dv8tion.jda.api.JDA;
@@ -29,17 +31,21 @@ public class Bot {
     private AutoRoleManager autoroleManager;
     private AutoVoiceChannelManager autoVoiceChannelManager;
     private ConfigurationManager configurationManager;
+    private GateManager gateManager;
+    private PlayerManager playerManager;
 
     public Bot(BotConfiguration configuration){
         this.configuration = configuration;
         this.log = LoggerFactory.getLogger(this.getClass().getSimpleName());
         this.irelia = new Irelia(configuration.getRiotToken(),Platform.EUW1);
         this.jdaBuilder = JDABuilder.createDefault(configuration.getDiscordToken());
-        this.jdaBuilder.enableIntents(GatewayIntent.MESSAGE_CONTENT);
+        this.jdaBuilder.enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS);
         this.configurationManager = new ConfigurationManager();
         this.commandManager = new CommandManager();
         this.autoroleManager = new AutoRoleManager();
         this.autoVoiceChannelManager = new AutoVoiceChannelManager();
+        this.gateManager = new GateManager();
+        this.playerManager = new PlayerManager();
         this.registerManager();
     }
 
@@ -48,6 +54,8 @@ public class Bot {
         this.autoroleManager.register(this);
         this.configurationManager.register(this);
         this.autoVoiceChannelManager.register(this);
+        this.gateManager.register(this);
+        this.playerManager.register(this);
     }
 
     public void start() {
@@ -104,6 +112,16 @@ public class Bot {
     public AutoVoiceChannelManager getAutoVoiceChannelManager() {
         return autoVoiceChannelManager;
     }
+
+    public GateManager getGateManager() {
+        return gateManager;
+    }
+
+    public PlayerManager getPlayerManager() {
+        return playerManager;
+    }
+
+    
 
     public void listen(EventListener listener){
         this.jdaBuilder.addEventListeners(listener);

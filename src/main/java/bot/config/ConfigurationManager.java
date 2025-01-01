@@ -31,8 +31,12 @@ public class ConfigurationManager extends BotManager {
     }
 
     public void editConfiguration(Guild guild, GuildConfiguration configuration, String label, String value) {
-        reflecter.configurationSet(label, value, configuration);
-        configuration = repository.merge(configuration);
+        try {
+            reflecter.configurationSet(label, value, configuration);
+            configuration = repository.merge(configuration);
+        } catch (GuildConfigurationException e) {
+            logError(e.getMessage(), guild);
+        }
     }
 
     public List<GuildConfigurationException> checkConfiguration(GuildConfiguration configuration, Guild guild) {
@@ -69,16 +73,21 @@ public class ConfigurationManager extends BotManager {
     }
 
     public GuildContext buildContext(Bot bot, GuildConfiguration configuration) {
-        GuildContext result = new GuildContext(bot.getJDA().getGuildById(configuration.getGuild()));
+        Guild guild = bot.getJDA().getGuildById(configuration.getGuild());
+        GuildContext result = new GuildContext(guild);
         for (Method setter : reflecter.getContextSetters()) {
             String label = reflecter.getLabel(setter);
-            String item = reflecter.configurationGet(label, configuration);
-            reflecter.contextSet(label, item, result);
+            try {
+                String item = reflecter.configurationGet(label, configuration);
+                reflecter.contextSet(label, item, result);
+            } catch (GuildConfigurationException e) {
+                logError(e.getMessage(), guild);
+            }
         }
         return result;
     }
 
-    public GuildContext createContext(GuildConfiguration configuration){
+    public GuildContext createContext(GuildConfiguration configuration) {
         GuildContext context = buildContext(bot, configuration);
         return saveContext(context);
     }

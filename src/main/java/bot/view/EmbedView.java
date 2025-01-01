@@ -9,10 +9,12 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 
 public class EmbedView {
 
-    protected static final Color RED = new Color(0xEC2AF5F),
-            YELLOW = new Color(0xF1C40F),
-            GREEN = new Color(0x30CB83),
-            BLUE = new Color(0x2133A1),
+    protected static final Color 
+            RED = new Color(0xd10023),
+            YELLOW = new Color(0xd1bc00),
+            GREEN = new Color(0x00d154),
+            BLUE = new Color(0x0054d1),
+            DARK_BLUE = new Color(0x000a2d),
             BLACK = new Color(0x001429);
 
     protected static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");

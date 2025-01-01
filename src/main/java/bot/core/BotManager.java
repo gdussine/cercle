@@ -54,6 +54,11 @@ public abstract class BotManager {
         logGuild(Level.WARN, msg, guild);
     }
 
+    public void logError(String msg, Guild guild) {
+        log.error(msg);
+        logGuild(Level.ERROR, msg, guild);
+    }
+
     public void logError(String msg, Throwable cause, Guild guild) {
         log.error(msg, cause);
         logGuild(Level.ERROR, msg, guild);

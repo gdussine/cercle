@@ -6,10 +6,10 @@ import net.dv8tion.jda.api.entities.Member;
 public class WelcomeAdminView extends EmbedView{;
 
     public WelcomeAdminView(Member member){
-        this.template.setTitle("SYSTEM.WELCOME : %s just join!".formatted(member.getEffectiveName()));
+        this.template.setTitle(":wave: Welcome Info".formatted(member.getEffectiveName()));
         this.template.setColor(BLUE);
         this.template.appendDescription(":id: <@%s>\n".formatted(member.getId()));
-        this.template.appendDescription(":clock1: %s\n".formatted(DATETIME_FORMAT.format(member.getTimeJoined().atZoneSameInstant(defaultZone))));
+        this.template.appendDescription(":calendar: %s".formatted(DATETIME_FORMAT.format(member.getUser().getTimeCreated())));
     }
 
 }

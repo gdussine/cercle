@@ -13,9 +13,8 @@ public class LogView extends EmbedView{
         this.template.setAuthor(author);
         this.template.appendDescription(message);
         this.template.setFooter("%s".formatted( EmbedView.DATETIME_FORMAT.format(LocalDateTime.now())));
-        
     }
-
+    
     public void setLevel(Level level){
         if(level.equals(Level.INFO)){
             this.template.setColor(EmbedView.BLUE);

@@ -2,17 +2,17 @@ package bot.player;
 
 import java.time.LocalDateTime;
 
+import bot.view.DiscordPrintable;
 import irelia.data.account.Account;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import net.dv8tion.jda.api.entities.UserSnowflake;
 
 @Entity
-public class Player {
+public class Player implements DiscordPrintable{
 
     @Id
     private String id;
-
-    private String name;
 
     private String riotPuuid;
 
@@ -27,15 +27,7 @@ public class Player {
     public void setId(String id) {
         this.id = id;
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    
     public String getRiotPuuid() {
         return riotPuuid;
     }
@@ -64,6 +56,18 @@ public class Player {
     public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }    
+
+    public static Player createDefault(UserSnowflake user){
+        Player p = new Player();
+        p.setId(user.getId());
+        p.setCreationDate(LocalDateTime.now());
+        return p;
+    }
+
+    @Override
+    public String toDiscordString() {
+        return "<@%s>".formatted(this.id);
+    }
 
 
 }

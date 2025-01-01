@@ -36,12 +36,12 @@ public class CommandManager extends BotManager {
         Object[] parameters = entry.toCommandParameters(event);
         try {
             action.check();
-            entry.getMethod().invoke(action, parameters);
             this.logInfo("%s run %s".formatted(event.getUser().getEffectiveName(), event.getCommandString()),event.getGuild());
+            entry.getMethod().invoke(action, parameters);
         } catch (CommandCheckException e) {
             action.replyException(e);
         } catch(Exception e){
-            e.printStackTrace();
+            this.logError(e.getMessage(), e, event.getGuild());
         }
     }
 
