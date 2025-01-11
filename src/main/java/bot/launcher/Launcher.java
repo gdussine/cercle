@@ -12,13 +12,14 @@ import bot.persistence.Repository;
 
 public class Launcher {
 
-    private String[] args;
+    private String[] args = {"RUN", "MAIN"};;
     private LauncherAction action;
     private Logger log = LoggerFactory.getLogger(Launcher.class);
     private DatabaseManager dbm;
 
     private Launcher(String[] args) {
-        this.args = args;
+    	if(args.length != 0)
+    		this.args = args;
         this.dbm = new DatabaseManager("bot", "test");
     }
 
@@ -70,10 +71,5 @@ public class Launcher {
         java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
         Launcher launcher = new Launcher(args);
         launcher.parse();
-        // Session session = launcher.databaseManager.getSessionFactory().openSession();
-        // System.out.println("coucou");
-        // launcher.parse(args);
-        // session.close();
-        // System.exit(0);
     }
 }

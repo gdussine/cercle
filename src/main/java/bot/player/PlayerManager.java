@@ -1,7 +1,6 @@
 package bot.player;
 
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 import bot.core.BotManager;
@@ -24,7 +23,7 @@ public class PlayerManager extends BotManager{
         Player result = repository.get(user.getId());
         if(result == null){
             result = repository.persist(Player.createDefault(user));
-            this.logInfo(" %s saved as a player".formatted(guild.getMember(user).getEffectiveName()), guild);
+            this.logInfo("%s saved as a player".formatted(user.getAsMention()), guild);
         }
         return result;
     }

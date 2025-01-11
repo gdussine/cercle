@@ -1,10 +1,10 @@
-package utils;
+package bot.utils;
 
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 
 public enum BotEmoji {
 
-    WHITE_CHECK_MARK("\u2705"), NO_ENTRY_SIGN("\uD83D\uDEAB")
+    WHITE_CHECK_MARK("\u2705"), NO_ENTRY_SIGN("\uD83D\uDEAB"), ARROW_LEFT("\u2B05"), ARROW_RIGHT("\u27A1")
     ;
 
     private String code;
@@ -15,5 +15,9 @@ public enum BotEmoji {
 
     public Emoji asEmoji(){
         return Emoji.fromUnicode(code);
+    }
+    
+    public String asUnicode() {
+    	return code;
     }
 }

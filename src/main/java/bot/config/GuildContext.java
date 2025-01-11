@@ -1,9 +1,5 @@
 package bot.config;
 
-import java.lang.reflect.Method;
-
-import bot.core.Bot;
-import bot.exceptions.GuildConfigurationException;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
@@ -15,10 +11,13 @@ public class GuildContext {
 
     private TextChannel system;
     private TextChannel log;
+    private TextChannel inHouseEvent;
 
     private VoiceChannel autoVoice;
 
     private Role member;
+    
+    private String autoVoiceName;
 
     public GuildContext(Guild guild) {
         this.guild = guild;
@@ -51,6 +50,14 @@ public class GuildContext {
     public void setAutoVoice(String id) {
         this.autoVoice = guild.getVoiceChannelById(id);
     }
+    
+    public TextChannel getInHouseEvent() {
+		return inHouseEvent;
+	}
+    
+    public void setInHouseEvent(String id) {
+		this.inHouseEvent = guild.getTextChannelById(id);
+	}
 
     public Role getMember() {
         return member;
@@ -59,5 +66,13 @@ public class GuildContext {
     public void setMember(String id) {
         this.member = guild.getRoleById(id);
     }
+    
+    public String getAutoVoiceName() {
+		return autoVoiceName;
+	}
+    
+    public void setAutoVoiceName(String autoVoiceName) {
+		this.autoVoiceName = autoVoiceName;
+	}
 
 }

@@ -1,10 +1,14 @@
 package bot.command.autocomplete;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import bot.command.impl.DatabaseAction;
 import bot.config.ConfigurationReflecter;
+import bot.core.Bot;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.CommandAutoCompleteInteraction;
 
@@ -19,6 +23,21 @@ public enum CommandAutoCompleters {
             .collect(Collectors.toList());
         interaction.replyChoices(options).queue();
     }),
+    LIST_TYPE(interaction ->{
+    	List<Command.Choice> options = new ArrayList<>();
+    	Arrays.stream(DatabaseAction.LIST_TYPE).forEach(type ->{
+    		options.add(new Command.Choice(type.getSimpleName(), type.getSimpleName()));
+    	});
+    	interaction.replyChoices(options).queue();
+    }),
+    OPEN_EVENT(interaction ->{
+    	List<Command.Choice> options = new ArrayList<>();
+    	Bot.getInstance().getInHouseManager().getOpenGuildEvents(interaction.getGuild()).forEach(event ->{
+    		options.add(new Command.Choice(event.toDiscordString(), event.getId()));
+    	});
+    	interaction.replyChoices(options).queue();
+    }),
+    
     NONE(null);
 
     private Consumer<CommandAutoCompleteInteraction> completer;
@@ -28,6 +47,7 @@ public enum CommandAutoCompleters {
     }
 
     public Consumer<CommandAutoCompleteInteraction> getCompleter() {
+    	
         return completer;
     }
 

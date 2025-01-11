@@ -2,26 +2,50 @@ package bot.view.pagination;
 
 import bot.view.EmbedView;
 
-public class PaginationView extends EmbedView {
+public abstract class PaginationView extends EmbedView {
 
-    protected int range;
-    public int size;
+	protected int size;
+	protected int page;
 
-    public PaginationView(int range, int size) {
-        this.range = range;
-        this.size = size;
-    }
+	public PaginationView(int size, int page) {
+		this.size = size;
+		this.page = page;
+		this.template.setFooter("Page %d/%d".formatted(page, size));
+	}
 
-    protected int getMaxPage() {
-        if (size == 0)
-            return 0;
-        return (size / range) + 1;
-    }
+	public PaginationView(int size) {
+		this(size, 1);
+	}
 
-    protected void setPageFooter(int page) {
-        if(size == 0)
-            return; 
-        this.template.setFooter("Page %d/%d".formatted(page, getMaxPage()));
-    }
+	public boolean hasNext() {
+		return page + 1 <= size;
+	}
+	
+	public boolean hasPrevious() {
+		return page - 1 >=1;
+	}
+	
+	public boolean isOnePage() {
+		return size == 1;
+	}
+	
+	
+	public PaginationView next() {
+		if (hasNext()) {
+			this.page++;
+			render();
+		}
+		return this;
+	}
+	
+	public PaginationView previous() {
+		if (hasPrevious()) {
+			this.page--;
+			render();
+		}
+		return this;
+	}
+
+	public abstract void render();
 
 }

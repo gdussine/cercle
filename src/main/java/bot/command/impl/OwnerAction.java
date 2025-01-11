@@ -2,12 +2,11 @@ package bot.command.impl;
 
 import bot.command.annotations.CommandDescription;
 import bot.command.annotations.CommandModule;
-import bot.command.annotations.CommandOption;
 import bot.command.core.CommandAction;
 import bot.exceptions.CommandCheckException;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.Permission;
 
-@CommandModule(name = "owner", permission = {})
+@CommandModule(name = "owner", permission = {Permission.ADMINISTRATOR})
 public class OwnerAction extends CommandAction {
 
     @Override

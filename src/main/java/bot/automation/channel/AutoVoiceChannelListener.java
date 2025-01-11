@@ -9,7 +9,7 @@ public class AutoVoiceChannelListener extends BotListener {
 
     @Override
     public void onGuildVoiceUpdate(GuildVoiceUpdateEvent event) {
-        GuildContext context = bot.getContext(event.getGuild());
+        GuildContext context = bot.getContext(event.getGuild().getId());
         if (event.getChannelJoined() != null
                 && event.getChannelJoined().getId().equals(context.getAutoVoice().getId())) {
             bot.getAutoVoiceChannelManager().autocreate(event);

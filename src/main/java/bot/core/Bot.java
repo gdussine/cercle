@@ -10,16 +10,23 @@ import bot.command.core.CommandManager;
 import bot.config.BotConfiguration;
 import bot.config.ConfigurationManager;
 import bot.config.GuildContext;
+import bot.inhouse.InHouseManager;
 import bot.player.PlayerManager;
+import bot.view.pagination.PaginationViewManager;
 import irelia.core.Irelia;
 import irelia.core.Platform;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 public class Bot {
+	
+	private static Bot instance;
+	
+	public static Bot getInstance() {
+		return instance;
+	}
 
     private JDA jda;
     private JDABuilder jdaBuilder;
@@ -33,6 +40,8 @@ public class Bot {
     private ConfigurationManager configurationManager;
     private GateManager gateManager;
     private PlayerManager playerManager;
+    private PaginationViewManager paginationViewManager;
+    private InHouseManager inHouseManager;
 
     public Bot(BotConfiguration configuration){
         this.configuration = configuration;
@@ -46,7 +55,10 @@ public class Bot {
         this.autoVoiceChannelManager = new AutoVoiceChannelManager();
         this.gateManager = new GateManager();
         this.playerManager = new PlayerManager();
+        this.paginationViewManager = new PaginationViewManager();
+        this.inHouseManager = new InHouseManager();
         this.registerManager();
+        Bot.instance = this;
     }
 
     private void registerManager(){        
@@ -56,6 +68,8 @@ public class Bot {
         this.autoVoiceChannelManager.register(this);
         this.gateManager.register(this);
         this.playerManager.register(this);
+        this.paginationViewManager.register(this);
+        this.inHouseManager.register(this);
     }
 
     public void start() {
@@ -92,8 +106,8 @@ public class Bot {
         return jda;
     }
 
-    public GuildContext getContext(Guild guild){
-        return configurationManager.getContext(guild);
+    public GuildContext getContext(String guildId){
+        return configurationManager.getContext(guildId);
     }
 
     public CommandManager getCommandManager(){
@@ -120,6 +134,14 @@ public class Bot {
     public PlayerManager getPlayerManager() {
         return playerManager;
     }
+    
+    public PaginationViewManager getPaginationViewManager() {
+		return paginationViewManager;
+	}
+    
+    public InHouseManager getInHouseManager() {
+		return inHouseManager;
+	}
 
     
 

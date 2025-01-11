@@ -27,7 +27,7 @@ public abstract class CommandAction {
 
     public GuildContext context() {
         if(context == null)
-            this.context = bot.getConfigurationManager().getContext(interaction.getGuild());
+            this.context = bot.getContext(interaction.getGuild().getId());
         return this.context;
     }
 

@@ -13,8 +13,11 @@ public class GuildConfiguration {
     private String system;
     private String log;
     private String autoVoice;
+    private String inHouseEvent;
 
     private String member;
+    
+    private String autoVoiceName;
 
     public GuildConfiguration() {
 
@@ -51,6 +54,14 @@ public class GuildConfiguration {
     public void setAutoVoice(String autoVoice) {
         this.autoVoice = autoVoice;
     }
+    
+    public String getInHouseEvent() {
+		return inHouseEvent;
+	}
+    
+    public void setInHouseEvent(String inHouseEvent) {
+		this.inHouseEvent = inHouseEvent;
+	}
 
     public String getMember() {
         return member;
@@ -59,14 +70,24 @@ public class GuildConfiguration {
     public void setMember(String member) {
         this.member = member;
     }
+    
+    public String getAutoVoiceName() {
+		return autoVoiceName;
+	}
+    
+    public void setAutoVoiceName(String autoVoiceName) {
+		this.autoVoiceName = autoVoiceName;
+	}
 
     public static GuildConfiguration createDefault(Guild guild) {
         GuildConfiguration result = new GuildConfiguration();
         result.setGuild(guild.getId());
         result.setLog(guild.getDefaultChannel().getId());
         result.setAutoVoice(guild.getDefaultChannel().getId());
+        result.setInHouseEvent(guild.getDefaultChannel().getId());
         result.setSystem(guild.getDefaultChannel().getId());
         result.setMember(guild.getPublicRole().getId());
+        result.setAutoVoiceName("{user}'s channel");
         return result;
     }
 

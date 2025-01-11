@@ -1,5 +1,6 @@
 package bot.persistence;
 
+import org.hibernate.CacheMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -8,13 +9,19 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import bot.config.BotConfiguration;
 import bot.config.GuildConfiguration;
+import bot.inhouse.event.InHouseEvent;
+import bot.inhouse.event.InHouseEventParticipation;
 import bot.player.Player;
 
 public class DatabaseManager {
 
-    private final Class<?>[] entities = { BotConfiguration.class,
+    private final Class<?>[] entities = { 
+    		BotConfiguration.class,
             GuildConfiguration.class,
-            Player.class };
+            Player.class,
+            InHouseEventParticipation.class,
+            InHouseEvent.class	
+    };
 
     private SessionFactory sessionFactory;
     private Session session;
@@ -42,7 +49,8 @@ public class DatabaseManager {
                 .addAnnotatedClasses(entities)
                 .buildMetadata()
                 .buildSessionFactory();
-        session = sessionFactory.openSession();
+        session = getCurrentSession();
+
     }
 
     public SessionFactory getSessionFactory() {
@@ -50,8 +58,10 @@ public class DatabaseManager {
     }
 
     public Session getCurrentSession() {
-        if (session == null || !session.isOpen())
+        if (session == null || !session.isOpen()) {
             this.session = sessionFactory.openSession();
+            session.setCacheMode(CacheMode.IGNORE);
+        }
         return session;
     }
 

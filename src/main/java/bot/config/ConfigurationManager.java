@@ -92,10 +92,6 @@ public class ConfigurationManager extends BotManager {
         return saveContext(context);
     }
 
-    public GuildContext getContext(Guild guild) {
-        return getContext(guild.getId());
-    }
-
     public GuildContext getContext(String guild) {
         return contexts.get(guild);
     }

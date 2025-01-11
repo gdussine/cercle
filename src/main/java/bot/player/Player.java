@@ -1,11 +1,15 @@
 package bot.player;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import bot.inhouse.event.InHouseEventParticipation;
 import bot.view.DiscordPrintable;
 import irelia.data.account.Account;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import net.dv8tion.jda.api.entities.UserSnowflake;
 
 @Entity
@@ -17,6 +21,9 @@ public class Player implements DiscordPrintable{
     private String riotPuuid;
 
     private String riotId;
+    
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
+    private List<InHouseEventParticipation> participations;
 
     private LocalDateTime creationDate;
 
@@ -57,6 +64,14 @@ public class Player implements DiscordPrintable{
         this.creationDate = creationDate;
     }    
 
+    public List<InHouseEventParticipation> getParticipations() {
+		return participations;
+	}
+    
+    public void setParticipations(List<InHouseEventParticipation> participations) {
+		this.participations = participations;
+	}
+    
     public static Player createDefault(UserSnowflake user){
         Player p = new Player();
         p.setId(user.getId());

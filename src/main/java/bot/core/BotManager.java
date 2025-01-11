@@ -35,7 +35,7 @@ public abstract class BotManager {
     private void logGuild(Level level, String msg, Guild guild) {
         if (guild == null || bot == null)
             return;
-        GuildContext context = bot.getConfigurationManager().getContext(guild);
+        GuildContext context = bot.getConfigurationManager().getContext(guild.getId());
         if(context == null)
             return;
         if(context.getLog() == null)
