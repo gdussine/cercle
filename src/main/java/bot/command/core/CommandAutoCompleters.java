@@ -1,4 +1,4 @@
-package bot.command.autocomplete;
+package bot.command.core;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,8 +32,8 @@ public enum CommandAutoCompleters {
     }),
     OPEN_EVENT(interaction ->{
     	List<Command.Choice> options = new ArrayList<>();
-    	Bot.getInstance().getInHouseManager().getOpenGuildEvents(interaction.getGuild()).forEach(event ->{
-    		options.add(new Command.Choice(event.toDiscordString(), event.getId()));
+    	Bot.getInstance().getInHouseManager().getRepository().getOpenGuildEvents(interaction.getGuild()).forEach(event ->{
+    		options.add(new Command.Choice(event.toString(), event.getId()));
     	});
     	interaction.replyChoices(options).queue();
     }),

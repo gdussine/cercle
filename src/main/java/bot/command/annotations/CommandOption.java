@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import bot.command.autocomplete.CommandAutoCompleters;
+import bot.command.core.CommandAutoCompleters;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)

@@ -9,8 +9,12 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import bot.config.BotConfiguration;
 import bot.config.GuildConfiguration;
+import bot.inhouse.InHouseGame;
+import bot.inhouse.InHouseGamePick;
 import bot.inhouse.event.InHouseEvent;
 import bot.inhouse.event.InHouseEventParticipation;
+import bot.inhouse.season.InHouseSeason;
+import bot.inhouse.season.InHouseSeasonElo;
 import bot.player.Player;
 
 public class DatabaseManager {
@@ -20,7 +24,11 @@ public class DatabaseManager {
             GuildConfiguration.class,
             Player.class,
             InHouseEventParticipation.class,
-            InHouseEvent.class	
+            InHouseEvent.class,
+            InHouseSeason.class,
+            InHouseSeasonElo.class,
+            InHouseGame.class,
+            InHouseGamePick.class
     };
 
     private SessionFactory sessionFactory;

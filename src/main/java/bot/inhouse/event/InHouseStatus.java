@@ -1,6 +1,6 @@
 package bot.inhouse.event;
 
-public enum InHouseEventStatus {
+public enum InHouseStatus {
 	
 	OPEN, CLOSE
 

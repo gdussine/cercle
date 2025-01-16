@@ -8,7 +8,6 @@ import java.util.List;
 import bot.command.annotations.CommandModule;
 import bot.command.annotations.CommandDescription;
 import bot.command.annotations.CommandOption;
-import bot.command.autocomplete.CommandAutoCompleters;
 import bot.core.Bot;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;

@@ -12,11 +12,12 @@ public class EmbedView {
     protected static final Color 
             RED = new Color(0xd10023),
             YELLOW = new Color(0xd1bc00),
-            GREEN = new Color(0x00d154),
+            GREEN = new Color(0x3BB153),
             BLUE = new Color(0x0054d1),
             DARK_BLUE = new Color(0x000a2d),
             BLACK = new Color(0x001429),
-            DISCORD = new Color(0x313338);
+            DISCORD = new Color(0x313338),
+            WHITE = new Color(0xffffff);
 
     protected static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 

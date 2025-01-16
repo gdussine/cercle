@@ -12,6 +12,8 @@ public class GuildContext {
     private TextChannel system;
     private TextChannel log;
     private TextChannel inHouseEvent;
+    private TextChannel inHouseGame;
+    private TextChannel inHouseSeason;
 
     private VoiceChannel autoVoice;
 
@@ -58,6 +60,22 @@ public class GuildContext {
     public void setInHouseEvent(String id) {
 		this.inHouseEvent = guild.getTextChannelById(id);
 	}
+
+    public TextChannel getInHouseGame() {
+        return inHouseGame;
+    }
+
+    public void setInHouseGame(String id) {
+        this.inHouseGame = guild.getTextChannelById(id);
+    }
+
+    public TextChannel getInHouseSeason() {
+        return inHouseSeason;
+    }
+
+    public void setInHouseSeason(String id) {
+        this.inHouseSeason = guild.getTextChannelById(id);
+    }
 
     public Role getMember() {
         return member;

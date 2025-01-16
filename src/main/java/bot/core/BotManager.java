@@ -12,7 +12,7 @@ public abstract class BotManager {
 
     protected BotListener listener;
     protected Bot bot;
-    private Logger log;
+    protected Logger log;
 
     public BotManager(BotListener listener) {
         this.log = LoggerFactory.getLogger(getClass());
@@ -46,7 +46,7 @@ public abstract class BotManager {
 
     public void logInfo(String msg, Guild guild) {
         log.info(msg);
-        logGuild(Level.INFO, msg, guild);
+        //logGuild(Level.INFO, msg, guild);
     }
 
     public void logWarn(String msg, Guild guild) {

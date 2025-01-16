@@ -14,6 +14,8 @@ public class GuildConfiguration {
     private String log;
     private String autoVoice;
     private String inHouseEvent;
+    private String inHouseGame;
+    private String inHouseSeason;
 
     private String member;
     
@@ -63,6 +65,22 @@ public class GuildConfiguration {
 		this.inHouseEvent = inHouseEvent;
 	}
 
+    public String getInHouseGame() {
+        return inHouseGame;
+    }
+
+    public void setInHouseGame(String inHouseGame) {
+        this.inHouseGame = inHouseGame;
+    }
+
+    public String getInHouseSeason() {
+        return inHouseSeason;
+    }
+
+    public void setInHouseSeason(String inHouseSeason) {
+        this.inHouseSeason = inHouseSeason;
+    }
+
     public String getMember() {
         return member;
     }
@@ -83,11 +101,6 @@ public class GuildConfiguration {
         GuildConfiguration result = new GuildConfiguration();
         result.setGuild(guild.getId());
         result.setLog(guild.getDefaultChannel().getId());
-        result.setAutoVoice(guild.getDefaultChannel().getId());
-        result.setInHouseEvent(guild.getDefaultChannel().getId());
-        result.setSystem(guild.getDefaultChannel().getId());
-        result.setMember(guild.getPublicRole().getId());
-        result.setAutoVoiceName("{user}'s channel");
         return result;
     }
 

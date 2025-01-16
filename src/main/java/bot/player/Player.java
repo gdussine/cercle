@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import bot.inhouse.event.InHouseEventParticipation;
+import bot.inhouse.season.InHouseSeasonElo;
 import bot.view.DiscordPrintable;
 import irelia.data.account.Account;
 import jakarta.persistence.CascadeType;
@@ -24,6 +25,9 @@ public class Player implements DiscordPrintable{
     
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
     private List<InHouseEventParticipation> participations;
+
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
+    private List<InHouseSeasonElo> elos;
 
     private LocalDateTime creationDate;
 
@@ -71,6 +75,14 @@ public class Player implements DiscordPrintable{
     public void setParticipations(List<InHouseEventParticipation> participations) {
 		this.participations = participations;
 	}
+
+    public List<InHouseSeasonElo> getElos() {
+        return elos;
+    }
+
+    public void setElos(List<InHouseSeasonElo> elos) {
+        this.elos = elos;
+    }
     
     public static Player createDefault(UserSnowflake user){
         Player p = new Player();
